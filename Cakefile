@@ -83,6 +83,8 @@ task 'dist', 'Build a distribution', ->
     # Someone who knows CoffeeScript should make this more Coffee-licious
     console.log '   : Compiling LESS...'
 
+    less.render fs.readFileSync("src/main/less/turnitin.less", 'utf8'), (err, css) ->
+      fs.writeFileSync("src/main/html/css/turnitin.css", css)
     less.render fs.readFileSync("src/main/less/screen.less", 'utf8'), (err, css) ->
       fs.writeFileSync("src/main/html/css/screen.css", css)
     less.render fs.readFileSync("src/main/less/reset.less", 'utf8'), (err, css) ->

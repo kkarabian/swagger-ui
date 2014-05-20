@@ -14,6 +14,7 @@ class MainView extends Backbone.View
       while typeof resources[id] isnt 'undefined'
         id = id + "_" + counter
         counter += 1
+      resource.name = resource.name.replace /\.json/, ""
       resource.id = id
       resources[id] = resource
       @addResource resource

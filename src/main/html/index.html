@@ -5,8 +5,10 @@
   <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
   <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+  <link href='css/turnitin.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
   <link href='css/screen.css' media='print' rel='stylesheet' type='text/css'/>
+  <link href='css/turnitin.css' media='print' rel='stylesheet' type='text/css'/>
   <script type="text/javascript" src="lib/shred.bundle.js"></script>
   <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
   <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
@@ -49,15 +51,9 @@
       },
       docExpansion: "none"
     });
+    window.authorizations.add("key", new ApiKeyAuthorization("Authorization", "[% c.config.swagger.authorization_key; %]", "header"));
+    window.authorizations.add("api_key", new ApiKeyAuthorization("X-Integration-ID", "16", "header"));
 
-    $('#input_apiKey').change(function() {
-      var key = $('#input_apiKey')[0].value;
-      log("key: " + key);
-      if(key && key.trim() != "") {
-        log("added key " + key);
-        window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "query"));
-      }
-    })
     window.swaggerUi.load();
   });
   </script>
@@ -67,21 +63,25 @@
 <div id='header'>
   <div class="swagger-ui-wrap">
     <a id="logo" href="http://swagger.wordnik.com">swagger</a>
-    <form id='api_selector'>
-      <div class='input icon-btn'>
-        <img id="show-pet-store-icon" src="images/pet_store_api.png" title="Show Swagger Petstore Example Apis">
-      </div>
-      <div class='input icon-btn'>
-        <img id="show-wordnik-dev-icon" src="images/wordnik_api.png" title="Show Wordnik Developer Apis">
-      </div>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input'><a id="explore" href="#">Explore</a></div>
-    </form>
   </div>
 </div>
 
 <div id="message-bar" class="swagger-ui-wrap">&nbsp;</div>
+
+<div id="custom-doc-wrap" class="swagger-ui-wrap">
+  REST API app has three types of authentication:
+  <ol>
+    <li>Basic authentication with username/password: user's
+  email address and password from m_user table</li>
+    <li>Basic authentication with account/shared key: account id with
+  the shared key from external_authentication table, which should have
+  a row for that account id with the api_productid = 16, similar to
+  how other "integrations" must be activated/configured</li>
+    <li>session-id parameter in the url or cookie (must be a valid session)</li>
+  </ol>
+  All of these should be sent with a header called 'X-Integration-ID' with a value of '16'.
+</div>
+
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
 </html>
