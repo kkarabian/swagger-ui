@@ -21,6 +21,10 @@
         <h4>Implementation Notes</h4>
         <p>{{{notes}}}</p>
         {{/if}}
+        {{#if access}}
+        <h4>User Access</h4>
+        <p>{{{access}}}</p>
+        {{/if}}
         {{#oauth}}
         <div class="auth">
         <span class="api-ic ic-error"></span>{{/oauth}}
@@ -37,6 +41,12 @@
           <span class="api-ic ic-off" title="click to authenticate"></span>
         </div>
         {{/oauth}}
+        {{#if type}}
+          <h4>User Access</h4>
+          <p><span class="model-signature" /></p>
+          <br/>
+          <div class="response-content-type" />
+        {{/if}}
         {{#if type}}
           <h4>Response Class</h4>
           <p><span class="model-signature" /></p>
